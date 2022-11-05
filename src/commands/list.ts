@@ -1,6 +1,6 @@
 import {Command, Flags} from '@oclif/core'
 
-export default class List extends Command {
+export default class ListCommand extends Command {
   static description = 'describe the command here'
 
   static examples = [
@@ -17,7 +17,7 @@ export default class List extends Command {
   static args = [{name: 'file'}]
 
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(List)
+    const {args, flags} = await this.parse(ListCommand)
 
     const name = flags.name ?? 'world'
     this.log(`hello ${name} from /Users/joe/projects/tude/src/commands/list.ts`)

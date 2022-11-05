@@ -1,7 +1,7 @@
 import {Command, Flags} from '@oclif/core'
 
-export default class Add extends Command {
-  static description = 'describe the command here'
+export default class AddCommand extends Command {
+  static description = 'add an item to the tasks'
 
   static examples = [
     '<%= config.bin %> <%= command.id %>',
@@ -9,7 +9,7 @@ export default class Add extends Command {
 
   static flags = {
     // flag with a value (-n, --name=VALUE)
-    name: Flags.string({char: 'n', description: 'name to print'}),
+    name: Flags.string({char: 'n', description: 'task name'}),
     // flag with no value (-f, --force)
     force: Flags.boolean({char: 'f'}),
   }
@@ -17,7 +17,7 @@ export default class Add extends Command {
   static args = [{name: 'file'}]
 
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(Add)
+    const {args, flags} = await this.parse(AddCommand)
 
     const name = flags.name ?? 'world'
     this.log(`hello ${name} from /Users/joe/projects/tude/src/commands/add.ts`)
