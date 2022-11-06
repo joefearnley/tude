@@ -1,28 +1,69 @@
-import {Command, Flags} from '@oclif/core'
+import {Command, CliUx} from '@oclif/core'
+import * as fs from 'fs-extra'
+import * as path from 'path'
+import {format} from 'date-fns'
 
-export default class List extends Command {
-  static description = 'describe the command here'
+export default class ListCommand extends Command {
+  static description = 'list current items to do'
 
   static examples = [
     '<%= config.bin %> <%= command.id %>',
   ]
 
-  static flags = {
-    // flag with a value (-n, --name=VALUE)
-    name: Flags.string({char: 'n', description: 'name to print'}),
-    // flag with no value (-f, --force)
-    force: Flags.boolean({char: 'f'}),
+  private databaseFile = path.join(this.config.dataDir, 'database.json');
+
+  // static flags = {
+  // }
+
+  // static args = [{name: 'file'}]
+
+  private async setUpData() {
+    fs.readJson(this.databaseFile, {throws: false})
+    .then(results => {
+      if (!results) {
+        const exampleItems = {
+          items: [
+            {
+              id: 1,
+              name: 'task 1',
+              completed: false,
+              dueDate: '',
+              created: format(new Date(), 'MM/dd/yyyy'),
+            },
+          ],
+        }
+
+        fs.writeJson(this.databaseFile, exampleItems, err => {
+          if (err) return console.error(err)
+          console.log('success!')
+        })
+      }
+    })
   }
 
-  static args = [{name: 'file'}]
-
   public async run(): Promise<void> {
-    const {args, flags} = await this.parse(List)
+    this.log('running list command from /Users/joe/projects/tude/src/commands/list.ts')
 
-    const name = flags.name ?? 'world'
-    this.log(`hello ${name} from /Users/joe/projects/tude/src/commands/list.ts`)
-    if (args.file && flags.force) {
-      this.log(`you input --force and --file: ${args.file}`)
-    }
+    // const {args, flags} = await this.parse(ListCommand)
+    // const name = flags.name ?? 'world'
+    // if (args.file && flags.force) {
+    //   this.log(`you input --force and --file: ${args.file}`)
+    // }
+
+    const data = await fs.readJSON(this.databaseFile)
+
+    CliUx.ux.table(data.items, {
+      name: {
+        minWidth: 20,
+      },
+      dueDate: {
+        minWidth: 20,
+      },
+      completed: {
+        minWidth: 20,
+      },
+    }, {
+      printLine: this.log.bind(this),
+    })
   }
 }
