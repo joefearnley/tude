@@ -44,7 +44,10 @@ export default class ListCommand extends Command {
   public async run(): Promise<void> {
     this.log('running list command from /Users/joe/projects/tude/src/commands/list.ts')
 
-    // const {args, flags} = await this.parse(ListCommand)
+    const {args} = await this.parse(ListCommand)
+
+    this.log(`${args}`)
+
     // const name = flags.name ?? 'world'
     // if (args.file && flags.force) {
     //   this.log(`you input --force and --file: ${args.file}`)
