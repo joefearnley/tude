@@ -12,10 +12,75 @@ export default class ListCommand extends Command {
 
   private databaseFile = path.join(this.config.dataDir, 'database.json');
 
-  // static flags = {
-  // }
+  static flags = {
+    // flag with a value (-a, --all)
+    all: Flags.boolean({
+      char: 'a',
+      description: 'list all items',
+      required: false,
+    }),
 
-  static args = [{name: 'all'}]
+    // flag with a value (-c, --completed=VALUE)
+    completed: Flags.boolean({
+      char: 'c',
+      description: 'list all completed items',
+      required: false,
+    }),
+  }
+
+  static args = [
+    {
+      name: 'all',
+      description: 'list all items',
+    },
+    {
+      name: 'completed',
+      description: 'list all completed items',
+    },
+  ]
+
+  public async run(): Promise<void> {
+    this.log('running list command from /Users/joe/projects/tude/src/commands/list.ts')
+
+    const {args, flags} = await this.parse(ListCommand)
+
+    this.log('$args:')
+
+    for (const key of Object.keys(args)) {
+      console.log(key, args[key])
+    }
+
+    this.log('-----------')
+    this.log('$flags:')
+
+    for (const key of Object.keys(flags)) {
+      console.log(key, flags[key])
+    }
+
+    this.log('')
+
+    const data = await fs.readJSON(this.databaseFile)
+    let items = data.items
+
+    if ((args.completed && args.completed === 'completed') || flags.all) {
+      items = items.filter((item: any) => item.completed)
+    }
+
+    CliUx.ux.table(items, {
+      name: {
+        minWidth: 20,
+      },
+      dueDate: {
+        header: 'Due Date',
+        minWidth: 20,
+      },
+      completed: {
+        minWidth: 20,
+      },
+    }, {
+      printLine: this.log.bind(this),
+    })
+  }
 
   private async setUpData() {
     fs.readJson(this.databaseFile, {throws: false})
@@ -38,45 +103,6 @@ export default class ListCommand extends Command {
           console.log('success!')
         })
       }
-    })
-  }
-
-  public async run(): Promise<void> {
-    this.log('running list command from /Users/joe/projects/tude/src/commands/list.ts')
-
-    const {args, flags} = await this.parse(ListCommand)
-
-    this.log('$args:')
-
-    for (const key of Object.keys(args)) {
-      console.log(key, args[key])
-    }
-
-    this.log('$flags:')
-
-    for (const key of Object.keys(flags)) {
-      console.log(key, flags[key])
-    }
-
-    // const name = flags.name ?? 'world'
-    // if (args.file && flags.force) {
-    //   this.log(`you input --force and --file: ${args.file}`)
-    // }
-
-    const data = await fs.readJSON(this.databaseFile)
-
-    CliUx.ux.table(data.items, {
-      name: {
-        minWidth: 20,
-      },
-      dueDate: {
-        minWidth: 20,
-      },
-      completed: {
-        minWidth: 20,
-      },
-    }, {
-      printLine: this.log.bind(this),
     })
   }
 }
