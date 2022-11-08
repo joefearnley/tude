@@ -1,4 +1,4 @@
-import {Command, CliUx} from '@oclif/core'
+import {Command, Flags, CliUx} from '@oclif/core'
 import * as fs from 'fs-extra'
 import * as path from 'path'
 import {format} from 'date-fns'
@@ -15,7 +15,7 @@ export default class ListCommand extends Command {
   // static flags = {
   // }
 
-  // static args = [{name: 'file'}]
+  static args = [{name: 'all'}]
 
   private async setUpData() {
     fs.readJson(this.databaseFile, {throws: false})
@@ -44,9 +44,19 @@ export default class ListCommand extends Command {
   public async run(): Promise<void> {
     this.log('running list command from /Users/joe/projects/tude/src/commands/list.ts')
 
-    const {args} = await this.parse(ListCommand)
+    const {args, flags} = await this.parse(ListCommand)
 
-    this.log(`${args}`)
+    this.log('$args:')
+
+    for (const key of Object.keys(args)) {
+      console.log(key, args[key])
+    }
+
+    this.log('$flags:')
+
+    for (const key of Object.keys(flags)) {
+      console.log(key, flags[key])
+    }
 
     // const name = flags.name ?? 'world'
     // if (args.file && flags.force) {
