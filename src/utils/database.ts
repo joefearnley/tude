@@ -24,4 +24,29 @@ export default class Database {
   getUncompleted() {
     return this.items
   }
+
+  setUpData(databaseFile) {
+    fs.readJson(databaseFile, {throws: false})
+    .then(results => {
+      if (!results) {
+        const exampleItems = {
+          items: [
+            {
+              id: 1,
+              name: 'task 1',
+              completed: false,
+              dueDate: '',
+              created: '11/01/2022'),
+            },
+          ],
+        }
+
+        fs.writeJson(databaseFile, exampleItems, err => {
+          if (err) return console.error(err)
+          console.log('success!')
+        })
+      }
+    })
+  }
+
 }

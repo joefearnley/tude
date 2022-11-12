@@ -20,7 +20,7 @@ export default class ListCommand extends Command {
       required: false,
     }),
 
-    // flag with a value (-c, --completed=VALUE)
+    // flag with a value (-c, --completed)
     completed: Flags.boolean({
       char: 'c',
       description: 'list all completed items',
@@ -43,22 +43,6 @@ export default class ListCommand extends Command {
     this.log('running list command from /Users/joe/projects/tude/src/commands/list.ts')
 
     const {args, flags} = await this.parse(ListCommand)
-
-    this.log('$args:')
-
-    for (const key of Object.keys(args)) {
-      console.log(key, args[key])
-    }
-
-    this.log('-----------')
-    this.log('$flags:')
-
-    for (const key of Object.keys(flags)) {
-      console.log(key, flags[key])
-    }
-
-    this.log('')
-
     const data = await fs.readJSON(this.databaseFile)
     let items = data.items
 
@@ -79,30 +63,6 @@ export default class ListCommand extends Command {
       },
     }, {
       printLine: this.log.bind(this),
-    })
-  }
-
-  private async setUpData() {
-    fs.readJson(this.databaseFile, {throws: false})
-    .then(results => {
-      if (!results) {
-        const exampleItems = {
-          items: [
-            {
-              id: 1,
-              name: 'task 1',
-              completed: false,
-              dueDate: '',
-              created: format(new Date(), 'MM/dd/yyyy'),
-            },
-          ],
-        }
-
-        fs.writeJson(this.databaseFile, exampleItems, err => {
-          if (err) return console.error(err)
-          console.log('success!')
-        })
-      }
     })
   }
 }
