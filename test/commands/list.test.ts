@@ -10,11 +10,11 @@ const data = {
 }
 
 describe('list', () => {
-  test
-  .beforeEach(() => {
+  beforeEach(() => {
     console.log('before each...v')
   })
-  .afterEach(() => {
+
+  afterEach(() => {
     console.log('before each...')
   })
 
