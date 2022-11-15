@@ -9,10 +9,6 @@ export default class Database {
     this.dataDir = dataDir
   }
 
-  public static async initialize(): Promise<Database> {
-    this.items  = await fs.readJSON(path.join(this.dataDir, 'config.json'))
-  }
-
   getAll() {
     return this.items
   }

@@ -21,7 +21,8 @@
     "@oclif/plugin-help": "^5",
     "@oclif/plugin-plugins": "^2.1.6",
     "date-fns": "^2.29.3",
-    "fs-extra": "^10.1.0"
+    "fs-extra": "^10.1.0",
+    "lowdb": "^5.0.5"
   },
   "devDependencies": {
     "@oclif/test": "^2.2.8",
