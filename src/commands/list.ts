@@ -1,8 +1,6 @@
 import {Command, Flags, CliUx} from '@oclif/core'
-import * as fs from 'fs-extra'
 import * as path from 'node:path'
-import { LowSync } from 'lowdb'
-import { JSONFileSync } from 'lowdb/node'
+import {Low, JSONFile} from 'lowdb/lib'
 
 
 export default class ListCommand extends Command {
@@ -44,36 +42,36 @@ export default class ListCommand extends Command {
   public async run(): Promise<void> {
     this.log('running list command from /Users/joe/projects/tude/src/commands/list.ts')
 
-    const adapter = new JSONFileSync(this.databaseFile)
-    const db = new LowSync(adapter)
+    const adapter = new JSONFile(this.databaseFile)
+    const db = new Low(adapter)
 
-    db.read()
+    await db.read()
 
-    // const {items} = db.data
-
-    this.log(db.data)
+    let items = db.data
 
     const {args, flags} = await this.parse(ListCommand)
-    const data = await fs.readJSON(this.databaseFile)
+
     // let items = data.items
 
-    // if ((args.completed && args.completed === 'completed') || flags.all) {
-    //   items = items.filter((item: any) => item.completed)
-    // }
+    this.log(`${items}`)
 
-    // CliUx.ux.table(items, {
-    //   name: {
-    //     minWidth: 20,
-    //   },
-    //   dueDate: {
-    //     header: 'Due Date',
-    //     minWidth: 20,
-    //   },
-    //   completed: {
-    //     minWidth: 20,
-    //   },
-    // }, {
-    //   printLine: this.log.bind(this),
-    // })
+    if ((args.completed && args.completed === 'completed') || flags.all) {
+      items = items.filter((item: any) => item.completed)
+    }
+
+    CliUx.ux.table(items, {
+      name: {
+        minWidth: 20,
+      },
+      dueDate: {
+        header: 'Due Date',
+        minWidth: 20,
+      },
+      completed: {
+        minWidth: 20,
+      },
+    }, {
+      printLine: this.log.bind(this),
+    })
   }
 }
