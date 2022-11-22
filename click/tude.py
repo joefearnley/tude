@@ -1,4 +1,5 @@
 import click
+from pysondb import db
 
 @click.command()
 @click.argument('arg')
