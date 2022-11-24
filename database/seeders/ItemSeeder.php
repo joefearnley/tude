@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Item;
 use Carbon\Carbon;
 
 class ItemSeeder extends Seeder
@@ -15,10 +16,6 @@ class ItemSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('items')->insert([
-            'name' => Str::random(20),
-            'complete' => false,
-            'due_date' => Str::random(10).'@gmail.com',
-        ]);
+        Item::factory()->count(5)->make();
     }
 }
