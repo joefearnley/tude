@@ -13,7 +13,10 @@ class ListCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'list:all';
+    protected $signature = 'items:list 
+        {--all : List all todo items (optional)}
+        {--completed : List all completed todo items (optional)}
+        {--open : List all open todo items (optional)}';
 
     /**
      * The description of the command.
@@ -29,21 +32,13 @@ class ListCommand extends Command
      */
     public function handle()
     {
-        $items = Item::all();
+        $items = Item::all(['name', 'complete', 'due_date']);
 
-        foreach ($items as $item) {
-            $this->info($item->name);
-        }
-    }
+        if ($this->option('completed')) {}
 
-    /**
-     * Define the command's schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
-     */
-    public function schedule(Schedule $schedule): void
-    {
-        // $schedule->command(static::class)->everyMinute();
+        $this->table(
+            ['Name', 'Complete?', 'Due Date'],
+            $items->toArray(),
+        );
     }
 }

@@ -1,22 +1,21 @@
 <?php
 
-namespace Tests\Feature;
+use App\Models\Item;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Tests\TestCase;
+it('items:list can be called', function() {
+    $this->artisan('items:list');
 
-class ListCommandTest extends TestCase
-{
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
-    public function test_example()
-    {
-        $this->artisan('inspire')
-          // ->expectsOutput('')
-             ->assertExitCode(0);
-    }
-}
+    $this->assertCommandCalled('items:list');
+});
+
+it('items:list displays all items', function () {
+    $items = Item::factory()->count(3)->create();
+
+    $items = $items->map->only(['name', 'complete', 'due_date']);
+
+    $this->artisan('items:list')
+        ->expectsTable(
+            ['Name', 'Complete?', 'Due Date'],
+            $items->toArray()
+        );
+});
