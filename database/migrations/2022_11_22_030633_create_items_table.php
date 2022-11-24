@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('complete');
-            $table->date('due_date');
+            $table->boolean('complete')->default(false);
+            $table->date('due_date')->nullable();
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace App\Commands;
 
 use Illuminate\Console\Scheduling\Schedule;
 use LaravelZero\Framework\Commands\Command;
+use App\Models\Item;
 
 class ListCommand extends Command
 {
@@ -12,7 +13,7 @@ class ListCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'list all|complete|uncomplete';
+    protected $signature = 'list:all';
 
     /**
      * The description of the command.
@@ -28,7 +29,11 @@ class ListCommand extends Command
      */
     public function handle()
     {
-        //
+        $items = Item::all();
+
+        foreach ($items as $item) {
+            $this->info($item->name);
+        }
     }
 
     /**
