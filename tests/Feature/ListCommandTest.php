@@ -13,10 +13,24 @@ it('items:list can be called', function() {
     $this->assertCommandCalled('items:list');
 });
 
-it('items:list displays all items', function () {
+it('items:list displays all items by default', function () {
     Item::factory()->count(3)->create();
 
     $items = Item::all(['name', 'complete', 'due_date']);
+
+    $this->artisan('items:list')
+        ->expectsTable(
+            ['Name', 'Complete?', 'Due Date'],
+            $items->toArray()
+        );
+});
+
+it('items:list displays all items with --all option', function () {
+    Item::factory()->count(3)->create();
+
+    $items = Item::all(['name', 'complete', 'due_date']);
+
+    $this->artisan('items:list', ['--all' => true]);
 
     $this->artisan('items:list')
         ->expectsTable(
