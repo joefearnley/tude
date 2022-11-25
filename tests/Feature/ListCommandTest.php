@@ -1,6 +1,11 @@
 <?php
 
 use App\Models\Item;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
+
+// beforeEach(fn () => User::factory()->create());
 
 it('items:list can be called', function() {
     $this->artisan('items:list');
@@ -9,9 +14,9 @@ it('items:list can be called', function() {
 });
 
 it('items:list displays all items', function () {
-    $items = Item::factory()->count(3)->create();
+    Item::factory()->count(3)->create();
 
-    $items = $items->map->only(['name', 'complete', 'due_date']);
+    $items = Item::all(['name', 'complete', 'due_date']);
 
     $this->artisan('items:list')
         ->expectsTable(
