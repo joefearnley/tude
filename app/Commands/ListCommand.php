@@ -32,20 +32,13 @@ class ListCommand extends Command
      */
     public function handle()
     {
-        $items = Item::all(['name', 'complete', 'due_date'])
-            ->map(function($item) {
-                return [
-                    'name' => $item->name,
-                    'complete' => $item->complete ? 'True' : 'False',
-                    'due_date' => isset($item->due_date) ? $item->due_date->format('m/d/Y') : null,
-                ];
-            });
+        $items = Item::allForDisplay();
 
         if ($this->option('completed')) {}
 
         $this->table(
             ['Name', 'Complete?', 'Due Date'],
-            $items->toArray(),
+            $items,
         );
     }
 }

@@ -16,26 +16,24 @@ it('items:list can be called', function() {
 it('items:list displays all items by default', function () {
     Item::factory()->count(3)->create();
 
-    $items = Item::all(['name', 'complete', 'due_date']);
+    $items = Item::allForDisplay();
 
     $this->artisan('items:list')
         ->expectsTable(
             ['Name', 'Complete?', 'Due Date'],
-            $items->toArray()
+            $items
         );
 });
 
 it('items:list displays all items with --all option', function () {
     Item::factory()->count(3)->create();
 
-    $items = Item::all(['name', 'complete', 'due_date']);
+    $items = Item::allForDisplay();
 
-    $this->artisan('items:list', ['--all' => true]);
-
-    $this->artisan('items:list')
+    $this->artisan('items:list', ['--all' => true])
         ->expectsTable(
             ['Name', 'Complete?', 'Due Date'],
-            $items->toArray()
+            $items
         );
 });
 

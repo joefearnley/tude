@@ -27,7 +27,7 @@ class Item extends Model
      */
     public function scopeComplete($query)
     {
-        return $query->whereTrue('complete');
+        return $query->where('complete', '=', true);
     }
 
      /**
@@ -38,15 +38,23 @@ class Item extends Model
      */
     public function scopeOpen($query)
     {
-        return $query->whereFalse('complete');
+        return $query->where('complete', '=', false);
     }
 
-    public function getCompleteAttribute($value)
+    /**
+     * Scope a query to get all of the items for display in console.
+     *
+     * @return  Array
+     */
+    public function scopeAllForDisplay()
     {
-        if ($value === '1') {
-            return true;
-        }
-
-        return false;
+        return Item::all(['name', 'complete', 'due_date'])
+            ->map(function($item) {
+                return [
+                    'name' => $item->name,
+                    'complete' => $item->complete ? 'True' : 'False',
+                    'due_date' => isset($item->due_date) ? $item->due_date->format('m/d/Y') : null,
+                ];
+            })->toArray();
     }
 }
