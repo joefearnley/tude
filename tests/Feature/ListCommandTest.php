@@ -38,3 +38,10 @@ it('items:list displays all items with --all option', function () {
             $items->toArray()
         );
 });
+
+it('items:list displays true or false', function() {
+    Item::factory()->create(['complete' => true]);
+
+    $this->artisan('items:list')
+        ->expectsOutputToContain('True');
+});

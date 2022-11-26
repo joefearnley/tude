@@ -19,8 +19,8 @@ class ItemFactory extends Factory
     {
         return [
             'name' => fake()->realText(30),
-            'complete' => rand(0,1) === 1,
-            'due_date' => rand(0,1) === 1 ? null : Carbon::today()->subDays(rand(0, 30)),
+            'complete' => rand(0,1) === 1 ? 1 : 0,
+            'due_date' => rand(0,1) === 1 ? null : Carbon::today()->subDays(rand(0, 30))->format('Y-m-d H:i:s'),
         ];
     }
 }

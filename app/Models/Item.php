@@ -9,6 +9,16 @@ class Item extends Model
 {
     use HasFactory;
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'complete' => 'boolean',
+        'due_date' => 'datetime:d/m/Y',
+    ];
+
      /**
      * Scope a query to only complete items.
      *
@@ -29,5 +39,14 @@ class Item extends Model
     public function scopeOpen($query)
     {
         return $query->whereFalse('complete');
+    }
+
+    public function getCompleteAttribute($value)
+    {
+        if ($value === '1') {
+            return true;
+        }
+
+        return false;
     }
 }

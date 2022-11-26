@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->boolean('complete')->default(false);
+            $table->tinyInteger('complete')->default(0);
             $table->date('due_date')->nullable();
             $table->timestamps();
         });
