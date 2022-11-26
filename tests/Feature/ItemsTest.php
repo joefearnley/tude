@@ -24,13 +24,13 @@ test('items open query scope retusn open items', function () {
 });
 
 test('items for display scope is an array', function() {
-    $itemsForDisplay = Item::allForDisplay();
+    $itemsForDisplay = Item::forDisplay();
 
     $this->assertIsArray($itemsForDisplay);
 });
 
 test('items for display scope contains item data', function() {
-    $itemsForDisplay = Item::allForDisplay();
+    $itemsForDisplay = Item::forDisplay();
 
     foreach($itemsForDisplay as $item) {
         $this->assertArrayHasKey('name', $item);

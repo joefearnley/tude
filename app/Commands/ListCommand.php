@@ -32,9 +32,17 @@ class ListCommand extends Command
      */
     public function handle()
     {
-        $items = Item::allForDisplay();
+        $query =  Item::query(['name', 'complete', 'due_date']);
 
-        if ($this->option('completed')) {}
+        if ($this->option('completed')) {
+            $query->complete();
+        }
+
+        if ($this->option('open')) {
+            $query->open();
+        }
+
+        $items = $query->forDisplay();
 
         $this->table(
             ['Name', 'Complete?', 'Due Date'],

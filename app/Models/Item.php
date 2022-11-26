@@ -44,12 +44,11 @@ class Item extends Model
     /**
      * Scope a query to get all of the items for display in console.
      *
-     * @return  Array
+     * @return Array
      */
-    public function scopeAllForDisplay()
+    public function scopeForDisplay($query)
     {
-        return Item::all(['name', 'complete', 'due_date'])
-            ->map(function($item) {
+        return $query->get()->map(function($item) {
                 return [
                     'name' => $item->name,
                     'complete' => $item->complete ? 'True' : 'False',

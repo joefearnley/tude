@@ -38,8 +38,17 @@ it('items:list displays all items with --all option', function () {
 });
 
 it('items:list displays true or false', function() {
-    Item::factory()->create(['complete' => true]);
+    Item::factory()->count(4)->create();
 
     $this->artisan('items:list')
-        ->expectsOutputToContain('True');
+        ->expectsOutputToContain('True')
+        ->expectsOutputToContain('False');
+});
+
+it('items:list displays only complete items with --completed option', function() {
+    Item::factory()->count(4)->create();
+
+    $this->artisan('items:list')
+        ->expectsOutputToContain('True')
+        ->doesntExpectOutputToContain('False');
 });
