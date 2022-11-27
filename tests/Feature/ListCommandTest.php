@@ -5,7 +5,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-// beforeEach(fn () => User::factory()->create());
+beforeEach(fn () => Item::factory()->count(5)->create());
 
 it('items:list can be called', function() {
     $this->artisan('items:list');
@@ -14,9 +14,7 @@ it('items:list can be called', function() {
 });
 
 it('items:list displays all items by default', function () {
-    Item::factory()->count(3)->create();
-
-    $items = Item::allForDisplay();
+    $items = Item::query(['name', 'complete', 'due_date'])->forDisplay();
 
     $this->artisan('items:list')
         ->expectsTable(
@@ -26,9 +24,7 @@ it('items:list displays all items by default', function () {
 });
 
 it('items:list displays all items with --all option', function () {
-    Item::factory()->count(3)->create();
-
-    $items = Item::allForDisplay();
+    $items = Item::query(['name', 'complete', 'due_date'])->forDisplay();
 
     $this->artisan('items:list', ['--all' => true])
         ->expectsTable(
@@ -38,17 +34,19 @@ it('items:list displays all items with --all option', function () {
 });
 
 it('items:list displays true or false', function() {
-    Item::factory()->count(4)->create();
-
     $this->artisan('items:list')
         ->expectsOutputToContain('True')
         ->expectsOutputToContain('False');
 });
 
 it('items:list displays only complete items with --completed option', function() {
-    Item::factory()->count(4)->create();
-
-    $this->artisan('items:list')
+    $this->artisan('items:list', ['--completed' => true])
         ->expectsOutputToContain('True')
         ->doesntExpectOutputToContain('False');
+});
+
+it('items:list displays only complete items with --open option', function() {
+    $this->artisan('items:list', ['--open' => true])
+        ->expectsOutputToContain('False')
+        ->doesntExpectOutputToContain('True');
 });
