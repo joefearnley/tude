@@ -19,6 +19,7 @@
         "php": "^8.0",
         "illuminate/database": "^9.0",
         "intonate/tinker-zero": "^1.2",
+        "laminas/laminas-text": "^2.9",
         "laravel-zero/framework": "^9.2",
         "nunomaduro/termwind": "^1.14"
     },
