@@ -12,14 +12,14 @@ class AddCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'item:add';
 
     /**
      * The description of the command.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Add a To Do item';
 
     /**
      * Execute the console command.
@@ -28,17 +28,7 @@ class AddCommand extends Command
      */
     public function handle()
     {
-        //
-    }
-
-    /**
-     * Define the command's schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
-     */
-    public function schedule(Schedule $schedule): void
-    {
-        // $schedule->command(static::class)->everyMinute();
+        $name = $this->ask('Item name?');
+        $dueDate = $this->ask('Item due date (optional)?');
     }
 }
