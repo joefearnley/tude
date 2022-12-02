@@ -28,7 +28,21 @@ class AddCommand extends Command
      */
     public function handle()
     {
-        $name = $this->ask('Item name?');
-        $dueDate = $this->ask('Item due date (optional)?');
+        $inputValid = false;
+        while($inputValid) {
+            $name = $this->ask('Item name?');
+            $dueDate = $this->ask('Item due date? (optional)');
+
+            if ($name != '' && $this->validateDueDate()) {
+                $inputValid = true;
+            }
+        }
+
+        // continue on....
+    }
+
+    private function validateDueDate($input)
+    {
+        return true;
     }
 }
