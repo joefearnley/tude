@@ -3,7 +3,9 @@
 namespace App\Commands;
 
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Facades\Validator;
 use LaravelZero\Framework\Commands\Command;
+use Carbon\Carbon;
 use App\Models\Item;
 
 class AddCommand extends Command
@@ -30,22 +32,35 @@ class AddCommand extends Command
     public function handle()
     {
         $inputIsValid = false;
-        while(!$inputIsValid) {
-            $name = $this->ask('Item name?');
-            $dueDate = $this->ask('Item due date? (dd/mm/YYYY) (optional)');
 
-            if ($name != '' && $this->validateDueDate($dueDate)) {
+        while (!$inputIsValid) {
+            $name = $this->ask('Item name?');
+
+            $validator = Validator::make(
+                ['name' => $name,], 
+                ['name' => ['required']]
+            );
+
+            if ($validator->fails()) {
+                $this->error('Item name required');
+                continue;
+            }
+
+            if ($validator->passes()) {
                 $inputIsValid = true;
             }
         }
 
+        $dueDate = $this->ask('Item due date? (optional)');
+
         $formattedDueDate = isset($dueDate) ? Carbon::parse($dueDate)->format('d/m/Y') : null;
 
-        // continue on....
         $item = Item::create([
             'name' => $name,
             'due_date' => $formattedDueDate,
         ]);
+
+        $this->info('Todo item has been created!');
     }
 
     private function validateDueDate($dueDate)
