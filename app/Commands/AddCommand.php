@@ -13,7 +13,7 @@ class AddCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'item:add';
+    protected $signature = 'items:add';
 
     /**
      * The description of the command.
@@ -39,7 +39,7 @@ class AddCommand extends Command
             }
         }
 
-        $formattedDueDate = isset($dueDate)) ? Carbon::parse($dueDate)->format('d/m/Y') : null;
+        $formattedDueDate = isset($dueDate) ? Carbon::parse($dueDate)->format('d/m/Y') : null;
 
         // continue on....
         $item = Item::create([

@@ -9,6 +9,12 @@ class Item extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'complete',
+        'due_date',
+    ];
+
     /**
      * The attributes that should be cast.
      *
