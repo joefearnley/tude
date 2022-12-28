@@ -31,13 +31,13 @@ class AddCommand extends Command
      */
     public function handle()
     {
-        $inputIsValid = false;
+        $nameIsValid = false;
 
-        while (!$inputIsValid) {
+        while (!$nameIsValid) {
             $name = $this->ask('Item name?');
 
             $validator = Validator::make(
-                ['name' => $name,], 
+                ['name' => $name,],
                 ['name' => ['required']]
             );
 
@@ -47,7 +47,7 @@ class AddCommand extends Command
             }
 
             if ($validator->passes()) {
-                $inputIsValid = true;
+                $nameIsValid = true;
             }
         }
 
@@ -61,6 +61,10 @@ class AddCommand extends Command
         ]);
 
         $this->info('Todo item has been created!');
+    }
+
+    private function validateName($name) {
+        
     }
 
     private function validateDueDate($dueDate)
