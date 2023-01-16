@@ -31,7 +31,9 @@ class MenuCommand extends Command
     {
         $items = Item::all()->pluck('name')->toArray();
 
-        $option = $this->menu('Todo Items', $items)->open();
+        $option = $this
+            ->menu('Todo Items - Select item complete', $items)
+            ->open();
 
         dd($option);
     }
