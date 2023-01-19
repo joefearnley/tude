@@ -29,23 +29,26 @@ class CompleteCommand extends Command
      */
     public function handle()
     {
-        $items = Item::complete()->pluck('name')->toArray();
+        $items = Item::open()->select('id', 'name')->get();
+
+        $itemsForDisplay = $items->map(function ($item) {
+            return $item->id . " - " . $item->name;
+        })->toArray();
 
         $title = 'Todo Items - Select item to complete';
 
         $option = $this
-            ->menu($title, $items)
+            ->menu($title, $itemsForDisplay)
             ->setForegroundColour('green')
             ->setBackgroundColour('black')
             ->setWidth(200)
             ->setPadding(10)
             ->setMargin(5)
-            ->setExitButtonText("Abort")
+            ->setExitButtonText("Nevermind")
             // remove exit button with
             // ->disableDefaultItems()
             ->setTitleSeparator('*-')
-            ->addLineBreak('<3', 2)
-            ->addStaticItem('AREA 2')
+            ->addLineBreak('-', 1)
             ->open();
 
 
