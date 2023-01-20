@@ -44,20 +44,17 @@ class CompleteCommand extends Command
             ->setWidth(200)
             ->setPadding(10)
             ->setMargin(5)
-            ->setExitButtonText("Nevermind")
-            // remove exit button with
-            // ->disableDefaultItems()
+            ->setExitButtonText('Nevermind')
             ->setTitleSeparator('*-')
             ->addLineBreak('-', 1)
             ->open();
 
+        if (isset($option)) {
+            $item = Item::find($items[$option]->id);
+            $item->complete = true;
+            $item->save();
 
-        dd($option);
-
-        // if (isset($option)) {
-        //     $item = Item::find($option);
-        //     $item->complete = true;
-        //     $item->save();
-        // }
+            $this->info('Todo item "' . $item->name . '" has been marked as complete!');
+        }
     }
 }
