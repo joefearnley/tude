@@ -35,18 +35,18 @@ it('items:list displays all items with --all option', function () {
 
 it('items:list displays true or false', function() {
     $this->artisan('items:list')
-        ->expectsOutputToContain('True')
-        ->expectsOutputToContain('False');
+        ->expectsOutputToContain('[x]')
+        ->expectsOutputToContain('[ ]');
 });
 
 it('items:list displays only complete items with --completed option', function() {
     $this->artisan('items:list', ['--completed' => true])
-        ->expectsOutputToContain('True')
-        ->doesntExpectOutputToContain('False');
+        ->expectsOutputToContain('[x]')
+        ->doesntExpectOutputToContain('[ ]');
 });
 
 it('items:list displays only complete items with --open option', function() {
     $this->artisan('items:list', ['--open' => true])
-        ->expectsOutputToContain('False')
-        ->doesntExpectOutputToContain('True');
+        ->expectsOutputToContain('[ ]')
+        ->doesntExpectOutputToContain('[x]');
 });

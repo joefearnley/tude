@@ -57,7 +57,7 @@ class Item extends Model
         return $query->get()->map(function($item) {
                 return [
                     'name' => $item->name,
-                    'complete' => $item->complete ? 'True' : 'False',
+                    'complete' => $item->complete ? '[x]' : '[ ]',
                     'due_date' => isset($item->due_date) ? $item->due_date->format('m/d/Y') : null,
                 ];
             })->toArray();
