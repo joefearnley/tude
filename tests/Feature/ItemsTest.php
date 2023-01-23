@@ -19,7 +19,7 @@ test('items complete query scope returns complete items', function () {
     }
 });
 
-test('items open query scope retusn open items', function () {
+test('items open query scope returns open items', function () {
     $items = Item::open()->get();
 
     foreach ($items as $item) {
