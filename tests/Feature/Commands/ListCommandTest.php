@@ -18,7 +18,7 @@ it('items:list displays all items by default', function () {
 
     $this->artisan('items:list')
         ->expectsTable(
-            ['Name', 'Complete?', 'Due Date'],
+            ['Complete?', 'Name', 'Due Date'],
             $items
         );
 });
@@ -28,7 +28,7 @@ it('items:list displays all items with --all option', function () {
 
     $this->artisan('items:list', ['--all' => true])
         ->expectsTable(
-            ['Name', 'Complete?', 'Due Date'],
+            ['Complete?', 'Name', 'Due Date'],
             $items
         );
 });

@@ -45,7 +45,7 @@ class ListCommand extends Command
         $items = $query->forDisplay();
 
         $this->table(
-            ['Name', 'Complete?', 'Due Date'],
+            ['Complete?', 'Name', 'Due Date'],
             $items,
         );
     }
